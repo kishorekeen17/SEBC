@@ -99,5 +99,11 @@ gpgkey =https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera
 gpgcheck = 1
 
 sudo yum install cloudera-manager-daemons cloudera-manager-server
-sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql mysql root kishore
+sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql kishore root kishore
 sudo service cloudera-scm-server start
+
+8) CDH Installation 
+
+Cloudera Reference => https://www.cloudera.com/documentation/enterprise/latest/topics/cm_ig_host_allocations.html
+
+

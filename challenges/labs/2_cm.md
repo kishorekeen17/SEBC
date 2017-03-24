@@ -13,4 +13,5 @@ output =>
 -rw-r--r--  1 root root 1991 May 18  2016 CentOS-Base.repo
 -rw-r--r--  1 root root  293 Mar 24 18:01 cloudera-manager.repo
 
-2) sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql kishore root kishore
+2) sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql kishore root kishore -h 172.31.28.12
+

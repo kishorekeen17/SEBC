@@ -16,4 +16,3 @@ com.cloudera.cmf.db.name=kishore
 com.cloudera.cmf.db.user=root
 com.cloudera.cmf.db.password=kishore
 com.cloudera.cmf.db.setupType=EXTERNAL
-

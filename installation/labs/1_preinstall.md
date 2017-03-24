@@ -296,6 +296,8 @@ http://172.31.45.217:7180/
 
 http://ec2-34-204-43-28.compute-1.amazonaws.com:7180
 
+CDH Installation Document : https://www.cloudera.com/documentation/enterprise/latest/topics/cm_ig_host_allocations.html
+
 ********************************************************************************************
 					Cloudera Installation Completed !
 ********************************************************************************************

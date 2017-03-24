@@ -32,5 +32,3 @@ Query : show databases;
 | scm                |
 | sentry             |
 +--------------------+
-
-4) 
