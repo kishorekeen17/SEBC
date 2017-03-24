@@ -7,3 +7,9 @@ drwxrwxr-t   - hive   hive                0 2017-03-24 19:03 /user/hive
 drwxrwxr-x   - hue    hue                 0 2017-03-24 19:04 /user/hue
 drwxrwxr-x   - oozie  oozie               0 2017-03-24 19:04 /user/oozie
 drwxr-xr-x   - hdfs   supergroup          0 2017-03-24 19:20 /user/stanford
+
+
+*** due to space issue all services from cloudera manager giving issues and down.
+but from back end few services are running like HDFS etc..
+
+THANK YOU !
