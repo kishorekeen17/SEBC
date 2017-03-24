@@ -17,7 +17,7 @@ scp -i my-aws-key.pem jdk-8u112-linux-i586.tar.gz centos@ec2-54-173-170-100.comp
 4) mount
 5) df -h
 6) ext-based volumes
-7) sudo tune2fs -l /dev/xfs
+7) sudo tune2fs -l /dev/xfs (sudo tune2fs -l /dev/xvda1)
 8) Disable transparent hugepage support
 9) ifconfig -a
 10) sudo yum install bind-utils
@@ -43,7 +43,8 @@ systemctl start ntpd
 					MySQL/MariaDB Installation Lab Started !
 ********************************************************************************************
 
-sudo rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+sudo rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm (Linux 7)
+sudo rpm -Uvh http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm (Linux 6)
 sudo yum install -y mysql-server
 sudo yum update -y
 sudo reboot
@@ -57,10 +58,11 @@ sudo cp /etc/my.cnf /etc/my.cnf.backup
 sudo truncate -s0 /etc/my.cnf
 ls -l /etc/my.cnf
 sudo vi /etc/my.cnf
-sudo /sbin/chkconfig mysqld on
+chown mysql:mysql /etc/my.cnf
 sudo service mysqld start
 sudo service mysqld status
-
+sudo /sbin/chkconfig mysqld on
+sudo /usr/bin/mysql_secure_installation
 
 copy below content into my.cnf
 
@@ -114,103 +116,7 @@ sql_mode=STRICT_ALL_TABLES
 ******************************************
 
 
-step-6)
-
-[root@ip-172-31-25-56 mysql]# sudo /usr/bin/mysql_secure_installation
-
-NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
-      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
-
-In order to log into MariaDB to secure it, we'll need the current
-password for the root user.  If you've just installed MariaDB, and
-you haven't set the root password yet, the password will be blank,
-so you should just press enter here.
-
-Enter current password for root (enter for none):
-OK, successfully used password, moving on...
-
-Setting the root password ensures that nobody can log into the MariaDB
-root user without the proper authorisation.
-
-Set root password? [Y/n] y
-New password:
-Re-enter new password:
-Password updated successfully!
-Reloading privilege tables..
- ... Success!
-
-
-By default, a MariaDB installation has an anonymous user, allowing anyone
-to log into MariaDB without having to have a user account created for
-them.  This is intended only for testing, and to make the installation
-go a bit smoother.  You should remove them before moving into a
-production environment.
-
-Remove anonymous users? [Y/n] y
- ... Success!
-
-Normally, root should only be allowed to connect from 'localhost'.  This
-ensures that someone cannot guess at the root password from the network.
-
-Disallow root login remotely? [Y/n] n
- ... skipping.
-
-By default, MariaDB comes with a database named 'test' that anyone can
-access.  This is also intended only for testing, and should be removed
-before moving into a production environment.
-
-Remove test database and access to it? [Y/n] y
- - Dropping test database...
- ... Success!
- - Removing privileges on test database...
- ... Success!
-
-Reloading the privilege tables will ensure that all changes made so far
-will take effect immediately.
-
-Reload privilege tables now? [Y/n] y
- ... Success!
-
-Cleaning up...
-
-All done!  If you've completed all of the above steps, your MariaDB
-installation should now be secure.
-
-Thanks for using MariaDB!
-
 mysql --user=root --password=kishore
-
-select table status
-
-+---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+---------------------+-------------------+----------+----------------+---------------------------------------------------+
-| Name                      | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length    | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time          | Collation         | Checksum | Create_options | Comment                                           |
-+---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+---------------------+-------------------+----------+----------------+---------------------------------------------------+
-| columns_priv              | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 227994731135631359 |         4096 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_bin          |     NULL |                | Column privileges                                 |
-| db                        | MyISAM |      10 | Fixed      |    0 |              0 |         880 | 123848989752688639 |         5120 |       880 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:55:21 | 2017-03-22 17:53:07 | utf8_bin          |     NULL |                | Database privileges                               |
-| event                     | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         2048 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Events                                            |
-| func                      | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 162974011515469823 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_bin          |     NULL |                | User defined functions                            |
-| general_log               | CSV    |      10 | Dynamic    |    2 |              0 |           0 |                  0 |            0 |         0 |           NULL | NULL                | NULL                | NULL                | utf8_general_ci   |     NULL |                | General log                                       |
-| help_category             | MyISAM |      10 | Dynamic    |   39 |             28 |        1092 |    281474976710655 |         3072 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | help categories                                   |
-| help_keyword              | MyISAM |      10 | Fixed      |  464 |            197 |       91408 |  55450570411999231 |        16384 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | help keywords                                     |
-| help_relation             | MyISAM |      10 | Fixed      | 1028 |              9 |        9252 |   2533274790395903 |        19456 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | keyword-topic relation                            |
-| help_topic                | MyISAM |      10 | Dynamic    |  508 |            886 |      450388 |    281474976710655 |        20480 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | help topics                                       |
-| host                      | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 110056715893866495 |         2048 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_bin          |     NULL |                | Host privileges;  Merged with database privileges |
-| ndb_binlog_index          | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | latin1_swedish_ci |     NULL |                |                                                   |
-| plugin                    | MyISAM |      10 | Dynamic    |    0 |              0 |           0 |    281474976710655 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | MySQL plugins                                     |
-| proc                      | MyISAM |      10 | Dynamic    |    0 |              0 |         292 |    281474976710655 |         4096 |       292 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Stored Procedures                                 |
-| procs_priv                | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 239253730204057599 |         4096 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_bin          |     NULL |                | Procedure privileges                              |
-| proxies_priv              | MyISAM |      10 | Fixed      |    2 |            693 |        1386 | 195062158860484607 |         5120 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | utf8_bin          |     NULL |                | User proxy privileges                             |
-| servers                   | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 433752939111120895 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | MySQL Foreign Servers table                       |
-| slow_log                  | CSV    |      10 | Dynamic    |    2 |              0 |           0 |                  0 |            0 |         0 |           NULL | NULL                | NULL                | NULL                | utf8_general_ci   |     NULL |                | Slow log                                          |
-| tables_priv               | MyISAM |      10 | Fixed      |    0 |              0 |           0 | 239535205180768255 |         4096 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_bin          |     NULL |                | Table privileges                                  |
-| time_zone                 | MyISAM |      10 | Fixed      |    0 |              0 |           0 |   1970324836974591 |         1024 |         0 |              1 | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Time zones                                        |
-| time_zone_leap_second     | MyISAM |      10 | Fixed      |    0 |              0 |           0 |   3659174697238527 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Leap seconds information for time zones           |
-| time_zone_name            | MyISAM |      10 | Fixed      |    0 |              0 |           0 |  55450570411999231 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Time zone names                                   |
-| time_zone_transition      | MyISAM |      10 | Fixed      |    0 |              0 |           0 |   4785074604081151 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Time zone transitions                             |
-| time_zone_transition_type | MyISAM |      10 | Fixed      |    0 |              0 |           0 |  10696049115004927 |         1024 |         0 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:53:07 | NULL                | utf8_general_ci   |     NULL |                | Time zone transition types                        |
-| user                      | MyISAM |      10 | Dynamic    |    4 |            107 |         532 |    281474976710655 |         2048 |       104 |           NULL | 2017-03-22 17:53:07 | 2017-03-22 17:55:11 | NULL                | utf8_bin          |     NULL |                | Users and global privileges                       |
-+---------------------------+--------+---------+------------+------+----------------+-------------+--------------------+--------------+-----------+----------------+---------------------+---------------------+---------------------+-------------------+----------+----------------+---------------------------------------------------+
-24 rows in set (0.00 sec)
 
 Step-8)
 
@@ -229,8 +135,8 @@ grant all on hmon.* TO 'hmon'@'%' IDENTIFIED BY 'hmon_password';
 create database kishore DEFAULT CHARACTER SET utf8;
 grant all on kishore.* TO 'root'@'%' IDENTIFIED BY 'kishore';
 grant all on kishore.* TO 'centos'@'%' IDENTIFIED BY 'kishore';
-create database metastore DEFAULT CHARACTER SET utf8;
-grant all on metastore.* TO 'hive'@'%' IDENTIFIED BY 'hive_password';
+create database hive DEFAULT CHARACTER SET utf8;
+grant all on hive.* TO 'hive'@'%' IDENTIFIED BY 'hive_password';
 create database nav DEFAULT CHARACTER SET utf8;
 grant all on nav.* TO 'nav'@'%' IDENTIFIED BY 'nav_password';
 create database sentry DEFAULT CHARACTER SET utf8;
@@ -241,6 +147,9 @@ create database hue DEFAULT CHARACTER SET utf8;
 grant all on hue.* to 'hue'@'%' identified by 'hue_password';
 create database oozie DEFAULT CHARACTER SET utf8;
 grant all privileges on oozie.* to 'oozie'@'%' identified by 'oozie';
+create database scm DEFAULT CHARACTER SET utf8;
+grant all privileges on scm.* to 'scm'@'%' identified by 'scm';
+
 
 ***************************************************************
 
