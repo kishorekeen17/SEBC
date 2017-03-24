@@ -158,9 +158,11 @@ Step-9)
 JDBC Connectors copy process :
 ==============================
 
-scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz centos@ec2-34-203-200-66.compute-1.amazonaws.com:/home/centos/
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz centos@ec2-34-203-200-66.compute-1.amazonaws.com:/home/root/
 sudo mkdir /usr/share/java
-sudo cp mysql-connector-java-5.1.41-bin.jar /usr/share/java/mysql-connector-java.jar
+cd /home
+tar zxvf mysql-connector-java-5.1.41.tar.gz
+sudo cp /home/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /usr/share/java/mysql-connector-java.jar
 
 5. On the master MySQL node, grant replication privileges for your replica node:
 
@@ -228,7 +230,9 @@ sudo yum install oracle-j2sdk1.7
 
 JDK classpath : 
 
-scp -i my-aws-key.pem jdk-8u112-linux-i586.tar.gz centos@ec2-34-204-43-28.compute-1.amazonaws.com:/home/centos/
+scp -i my-aws-key.pem jdk-8u121-linux-x64.tar.gz root@ec2-107-21-64-76.compute-1.amazonaws.com:/home/
+
+sudo mkdir /usr/java			 
 				 
 export JAVA_HOME=/usr/java/jdk1.8.0_121
 export PATH=$PATH:$JAVA_HOME/bin
@@ -262,8 +266,8 @@ for 5.9.0 repo
 [cloudera-manager]
 # Packages for Cloudera Manager, Version 5, on RedHat or CentOS 7 x86_64           	  
 name=Cloudera Manager
-baseurl=https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.9.0/
-gpgkey =https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera    
+baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.9.0/
+gpgkey =https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera    
 gpgcheck = 1
 
 Step-2)
@@ -287,7 +291,7 @@ Step-4)
 
 sudo service cloudera-scm-server start
 
-http://ec2-34-203-200-66.compute-1.amazonaws.com:7180
+http://ec2-107-21-64-76.compute-1.amazonaws.com:7180
 http://172.31.45.217:7180/
 
 http://ec2-34-204-43-28.compute-1.amazonaws.com:7180

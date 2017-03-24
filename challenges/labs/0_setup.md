@@ -59,3 +59,45 @@ reult =>
 berkeley:x:2040:
 [root@ip-172-31-28-12 ~]# grep stanford /etc/group
 stanford:x:2420:
+
+5) JDBC Connector
+
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz root@ec2-54-225-62-61.compute-1.amazonaws.com:/home/
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz root@ec2-54-88-53-71.compute-1.amazonaws.com:/home/
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz root@ec2-54-165-70-52.compute-1.amazonaws.com:/home/
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz root@ec2-54-225-62-61.compute-1.amazonaws.com:/home/
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz root@ec2-107-21-64-76.compute-1.amazonaws.com:/home/
+
+scp -i my-aws-key.pem mysql-connector-java-5.1.41.tar.gz centos@ec2-34-203-200-66.compute-1.amazonaws.com:/home/root/
+sudo mkdir /usr/share/java
+cd /home
+tar zxvf mysql-connector-java-5.1.41.tar.gz
+sudo cp /home/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /usr/share/java/mysql-connector-java.jar
+
+6) JDK Installation
+
+scp -i my-aws-key.pem jdk-8u121-linux-x64.tar.gz root@ec2-107-21-64-76.compute-1.amazonaws.com:/home/
+cd /home
+tar zxvf jdk-8u121-linux-x64.tar.gz
+sudo mkdir /usr/java
+mv jdk1.8.0_121 /usr/java/
+
+export JAVA_HOME=/usr/java/jdk1.8.0_121
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/tools.jar
+
+7) Cloudera Manager Installation
+created file /etc/yum.repos.d/cloudera-manager.repo (i.e. cloudera manager repo set)
+
+content of file => for download cm 5.9.0
+
+[cloudera-manager]
+# Packages for Cloudera Manager, Version 5, on RedHat or CentOS 7 x86_64           	  
+name=Cloudera Manager
+baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.9.0/
+gpgkey =https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera    
+gpgcheck = 1
+
+sudo yum install cloudera-manager-daemons cloudera-manager-server
+sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql mysql root kishore
+sudo service cloudera-scm-server start
